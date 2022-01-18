@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="lg:w-2/6 md:w-1/2 bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+  <h2 class="text-white text-lg font-medium title-font mb-5" >Log in</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <!-- <div class="relative mb-4"> -->
+       
+    <label class="leading-7 text-sm text-gray-400" >
+        {{ field.label_tag }}
+        <br>
+    </label>
+    {{ field }}
+    <br>
+        {% if field.help_text %}
+        
+        
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+    
+    <!-- </div> -->
+    <br>
+    {% endfor %}
+    <br>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="g-recaptcha" data-sitekey="6LcgoSEdAAAAAAN3mfCfg4EUzwByiolh7Bwob3ap"></div>
+    <button type="submit">Log In</button>
+  </form>
+  {% if messages %}
+  <ul class="messages" style="color:red">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+    {{ message }}
+  </li>
+  {% endfor %}
+  </ul>
+{% endif %}
+ 
+</div>
+<div class="flex-col">
+  <div class="flex-col">
+<p>
+  
+  <br>
+</p>
+</div>
+</div>
+<p>
+  
+  <button onclick="location.href='/accounts/password_reset/'" type="submit">Forgot Password</button>
+  <br>
+  <button onclick="location.href='/signup/'" type="submit">Sign Up for a new User</button>
+</p>
+
+
+{% endblock %}

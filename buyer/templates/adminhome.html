@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Portal</title>
+</head>
+<body class="text-gray-400 bg-gray-900 body-font">
+    <header class="text-gray-400 bg-gray-900 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <a class="flex title-font font-medium items-center text-white-900 mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-blue-500 rounded-full" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl">E-Commerce</span>
+          </a>
+          <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center" >
+          </nav>
+          <button class="flex ml-auto text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded" onclick="location.href='/buyer/logout'">
+            Logout
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+     </header>
+     
+      <section class="text-white bg-gray-900 body-font">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex flex-col text-center w-full mb-20">
+            <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Admin Portal</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
+          </div>
+          <div class="flex flex-wrap -m-12">
+            <div class="p-12 md:w-1/2 flex flex-col items-start">
+                <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Items</h1>
+            <table class="table-auto w-full text-left whitespace-no-wrap">
+              <thead>
+                <tr>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Item ID</th>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Item Name</th>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Price</th>
+                  <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+                </tr>
+              </thead>
+              {% for item in items %}
+              <tbody>
+                <tr>
+                  <td class="px-4 py-3">{{item.slug}}</td>
+                  <td class="px-4 py-3">{{item.title}}</td>
+                  <td class="px-4 py-3 text-lg text-gray-400">{{item.price}}</td>
+                  <td class="w-10 text-center">
+                    <div class="flex pl-4 mt-4 lg:w-1/10 mx-auto">
+                      <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded" onclick="location.href='/buyer/remove-item/{{item.slug}}'">
+                        Remove
+                    </button>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            </div>
+            <div class="p-12 md:w-1/2 flex flex-col items-start">
+                <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Suspicious Activity</h1>
+            <table style="float: right;" class="table-auto w-full text-left whitespace-no-wrap">
+                <thead>
+                    <tr>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">User Name</th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Tries</th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Address</th>
+                      <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+                    </tr>
+                  </thead>
+                    {% for profile in profiles %}
+              <tbody>
+                <tr>
+                  <td class="px-4 py-3">{{profile.user.username}}</td>
+                  <td class="px-4 py-3">{{profile.otp_count}}</td>
+                  <td class="px-4 py-3 text-lg text-gray-400">{{profile.address}}</td>
+                  <td class="w-10 text-center">
+                    <div class="flex pl-4 mt-4 lg:w-1/10 mx-auto">
+                      <button class="flex ml-auto text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded" onclick="location.href='/buyer/reset-account/{{profile.user.username}}'">
+                          Ignore
+                        </button>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="p-12 md:w-1/2 flex flex-col items-start">
+            <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Pdfs</h1>
+        <table style="float: right;" class="table-auto w-full text-left whitespace-no-wrap">
+            <thead>
+                <tr>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Sellers</th>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Address</th>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Pdfs</th>
+                  <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+                </tr>
+              </thead>
+                {% for seller in sellers %}
+          <tbody>
+            <tr>
+              <td class="px-4 py-3">{{seller.user.username}}</td>
+              <td class="px-4 py-3">{{seller.address}}</td>
+              <td class="px-4 py-3">{{seller.pdf}}</td>
+              <td class="w-10 text-center">
+                <div class="flex pl-4 mt-4 lg:w-1/10 mx-auto">
+                  <button class="flex ml-auto text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded" onclick="location.href='/buyer/open-pdf/{{seller.pdf}}'">
+                      Open
+                    </button>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+              </tbody>
+          </table>
+      </div>
+        </div>
+        </div>
+      </section>
+      
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Summary</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <style type="text/css">
+    html,
+    body,
+    header,
+    .carousel {
+      height: 60vh;
+    }
+
+    @media (max-width: 740px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+  </style>
+</head>
+<body class="text-gray-400 bg-gray-900 body-font">
+
+  <div class="mt-5 pt-4">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+    {% endif %}
+  </div>
+    <!-- <main> -->
+      <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-col text-center w-full mb-20">
+          <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Cart</h1>
+          <p class="lg:w-2/3 mx-auto leading-relaxed text-base">All items are listed here, change quantity or delete items as needed</p>
+        </div>
+        <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+          <table class="table-auto w-full text-left whitespace-no-wrap">
+            <thead>
+              <tr>
+                <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800 rounded-tl rounded-bl">Number</th>
+                <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800">Item Name</th>
+                <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800">Price</th>
+                <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800">Quantity</th>
+               
+              </tr>
+            </thead>
+            
+            <tbody>
+            {% for order_item in object.items.all %}
+              <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td class="px-4 py-3">{{ order_item.item.title }}</td>
+                  <td class="px-4 py-3">{{ order_item.item.price }}</td>
+                  <td class="px-4 py-3">
+                      <a href="{% url 'buyer:remove-single-item-from-cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>
+                      {{ order_item.quantity }}
+                      <a href="{% url 'buyer:add-to-cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>
+                  </td>
+                  <td class="px-4 py-3">
+                  <a style='color: red;' href="{% url 'buyer:remove-from-cart' order_item.item.slug %}">
+                      <i class="fas fa-trash float-right"></i>
+                  </a>
+                  </td>
+              </tr>
+              {% empty %}
+              <tr>
+                  <td colspan='4' class="px-4 py-3">Your cart is empty</td>
+              </tr>
+              <tr>
+                  <td class="px-4 py-3" colspan="4">
+                  <a class='btn btn-primary float-right' href='/buyer/home/'>Continue shopping</a>
+                  </td>
+              </tr>
+              {% endfor %}
+              {% if object.get_total %}
+          <tr>
+              <td colspan="3"><b>Order Total</b></td>
+              <td><b>₹{{ object.get_total }}</b></td>
+          </tr>
+          
+          {% endif %}
+          </tbody>
+      </table>
+      
+
+    </div>
+  
+  
+  <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
+    <a class="text-blue-400 inline-flex items-center md:mb-2 lg:mb-0" href='/buyer/home/'>Continue shopping
+      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
+    </a>
+    <a href='/buyer/checkout/'><button class="flex ml-auto text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded">Checkout</button></a>
+  </div>
+  </div>
+  <!-- </main> -->
+</body>
+</html>

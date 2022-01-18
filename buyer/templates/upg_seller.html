@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <header class="text-gray-400 bg-gray-900 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <a class="flex title-font font-medium items-center text-white-900 mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-blue-500 rounded-full" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl">E-commerce Register yourself as Seller page</span>
+          </a>
+          <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+          </nav>
+        </div>
+     </header>
+
+     {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+      {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+      {{ message }}
+    </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    <section class="text-gray-400 bg-gray-900 body-font">
+        <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+          <div class="lg:w-1/2 md:w-2/3 bg-gray-800 bg-opacity-50 rounded-lg p-4 flex flex-col text-center w-full mb-12 mx-auto">
+            <h2 class="text-white text-lg font-medium title-font mb-5">Submit the required documents to upgrade yourself to a seller.</h2>
+           
+          <div>
+            <form method = "post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit">Upload</button>
+          </form>
+          </div>
+        </div>
+      </section>
+
+</body>
+</html>
